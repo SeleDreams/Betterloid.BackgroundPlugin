@@ -11,7 +11,6 @@ using System;
 using Yamaha.VOCALOID.VSM;
 using System.IO;
 using Yamaha.VOCALOID.VDM;
-using Newtonsoft.Json;
 
 namespace BackgroundPlugin
 {
@@ -28,14 +27,14 @@ namespace BackgroundPlugin
         {
             BackgroundConfig config = new BackgroundConfig();
             Directory.CreateDirectory("Backgrounds");
-            string json = JsonConvert.SerializeObject(config);
+            string json = Betterloid.Betterloid.SerializeObject(config);
             File.WriteAllText("Backgrounds/config.json", json);
         }
 
         public void LoadBGConfig(string config, ref string filename, ref Stretch stretch, ref AlignmentY alignmentY, ref AlignmentX alignmentX, ref float opacity)
         {
             string json = File.ReadAllText(config);
-            BackgroundConfig backgroundConfig = JsonConvert.DeserializeObject<BackgroundConfig>(json);
+            BackgroundConfig backgroundConfig = Betterloid.Betterloid.DeserializeObject<BackgroundConfig>(json);
 
             if (!string.IsNullOrEmpty(backgroundConfig.CustomBackground))
             {
@@ -123,10 +122,15 @@ namespace BackgroundPlugin
 
         public void Startup()
         {
-            
             MainWindow window = Application.Current.MainWindow as MainWindow;
+            bool loaded = false;
             window.Loaded += (object sender, RoutedEventArgs args) =>
             {
+                if (loaded)
+                {
+                    return;
+                }
+                loaded = true;
                 try
                 {
                     MusicalEditorDivision xMusicalEditorDiv = window.FindName("xMusicalEditorDiv") as MusicalEditorDivision;
