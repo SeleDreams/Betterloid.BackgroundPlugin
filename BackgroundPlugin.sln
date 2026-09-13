@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.10.35122.118
+# Visual Studio Version 18
+VisualStudioVersion = 18.10.12201.205 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackgroundPlugin", "Betterloid.BackgroundPlugin\BackgroundPlugin.csproj", "{18CE23F6-E2A7-4601-850B-1D6915083DD9}"
 EndProject
@@ -10,9 +10,9 @@ EndProject
 Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "VOCALOID6", "VOCALOID6\VOCALOID6.exe", "{F1780B10-2576-4714-B7DC-2702C9F73223}"
 	ProjectSection(DebuggerProjectSystem) = preProject
 		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = C:\Users\SeleDreams\Desktop\Betterloid.BackgroundPlugin\VOCALOID6\VOCALOID6.exe
+		Executable = C:\Users\SeleDreams\Desktop\BetterloidDev\Betterloid.BackgroundPlugin\VOCALOID6\VOCALOID6.exe
 		RemoteMachine = DESKTOP-9MM0H1E
-		StartingDirectory = C:\Users\SeleDreams\Desktop\Betterloid.BackgroundPlugin\VOCALOID6
+		StartingDirectory = C:\Users\SeleDreams\Desktop\BetterloidDev\Betterloid.BackgroundPlugin\VOCALOID6
 		Environment = Par défaut
 		LaunchingEngine = 2e36f1d4-b23c-435d-ab41-18e608940038
 		UseLegacyDebugEngines = No
@@ -24,9 +24,9 @@ EndProject
 Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "VOCALOID5", "VOCALOID5\VOCALOID5.exe", "{42820BB9-5BB2-406D-94BD-F1378046C2EF}"
 	ProjectSection(DebuggerProjectSystem) = preProject
 		PortSupplier = 00000000-0000-0000-0000-000000000000
-		Executable = C:\Users\SeleDreams\Desktop\Betterloid.BackgroundPlugin\VOCALOID5\VOCALOID5.exe
+		Executable = C:\Users\SeleDreams\Desktop\BetterloidDev\Betterloid.BackgroundPlugin\VOCALOID5\VOCALOID5.exe
 		RemoteMachine = DESKTOP-9MM0H1E
-		StartingDirectory = C:\Users\SeleDreams\Desktop\Betterloid.BackgroundPlugin\VOCALOID5
+		StartingDirectory = C:\Users\SeleDreams\Desktop\BetterloidDev\Betterloid.BackgroundPlugin\VOCALOID5
 		Environment = Par défaut
 		LaunchingEngine = fb0d4648-f776-4980-95f8-bb7f36ebc1ee
 		UseLegacyDebugEngines = No

@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net6.0-windows;netframework4.6</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;netframework4.6</TargetFrameworks>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <UseWPF>True</UseWPF>
@@ -15,7 +15,7 @@
     <NoWarn>$(NoWarn);CA1416</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net6.0-windows'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
     <DefineConstants>VOCALOID6</DefineConstants>
   </PropertyGroup>
 
@@ -23,12 +23,12 @@
     <DefineConstants>VOCALOID5</DefineConstants>
   </PropertyGroup>
 
-  <Target Name="CopyPluginConfig" AfterTargets="Build" Condition="'$(TargetFramework)' == 'netframework4.6' Or '$(TargetFramework)' == 'net6.0-windows'">
+  <Target Name="CopyPluginConfig" AfterTargets="Build" Condition="'$(TargetFramework)' == 'netframework4.6' Or '$(TargetFramework)' == 'net8.0-windows'">
     <Copy SourceFiles="$(ProjectDir)PluginConfig.json" DestinationFiles="..\VOCALOID5\Plugins\$(ProjectName)\PluginConfig.json" />
     <Copy SourceFiles="$(ProjectDir)PluginConfig.json" DestinationFiles="..\VOCALOID6\Plugins\$(ProjectName)\PluginConfig.json" />
   </Target>
 
-  <Target Name="CopyDLLs" AfterTargets="Build" Condition="'$(TargetFramework)' == 'netframework4.6' Or '$(TargetFramework)' == 'net6.0-windows'">
+  <Target Name="CopyDLLs" AfterTargets="Build" Condition="'$(TargetFramework)' == 'netframework4.6' Or '$(TargetFramework)' == 'net8.0-windows'">
     <Copy SourceFiles="bin\$(TargetFramework)\$(ProjectName).dll" DestinationFiles="..\VOCALOID5\Plugins\$(ProjectName)\$(TargetFramework)\$(ProjectName).dll" />
     <Copy SourceFiles="bin\$(TargetFramework)\$(ProjectName).dll" DestinationFiles="..\VOCALOID6\Plugins\$(ProjectName)\$(TargetFramework)\$(ProjectName).dll" />
   </Target>
@@ -37,11 +37,11 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Betterloid" Condition="'$(TargetFramework)' == 'net6.0-windows'">
+    <Reference Include="Betterloid" Condition="'$(TargetFramework)' == 'net8.0-windows'">
       <HintPath>..\VOCALOID6\Plugins\Betterloid\$(TargetFramework)\Betterloid.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="VOCALOID6" Condition="'$(TargetFramework)' == 'net6.0-windows'">
+    <Reference Include="VOCALOID6" Condition="'$(TargetFramework)' == 'net8.0-windows'">
       <HintPath>..\VOCALOID6\VOCALOID6.dll</HintPath>
       <Private>False</Private>
     </Reference>
