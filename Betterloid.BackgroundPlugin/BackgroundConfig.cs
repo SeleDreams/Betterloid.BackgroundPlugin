@@ -18,6 +18,7 @@ namespace BackgroundPlugin
             public string Height { get; set; } = "auto";
         }
 
+        public static string[] BasePaths = { Betterloid.Betterloid.BasePath, Betterloid.Betterloid.DataPath };
         public string CustomBackground { get; private set; }
         public VerticalAlignment VerticalAlignment { get; private set; }
         public HorizontalAlignment HorizontalAlignment { get; private set; }
@@ -26,12 +27,25 @@ namespace BackgroundPlugin
         public int Width { get; private set; }
         public int Height { get; private set; }
 
+        public static string FindFile(string path)
+        {
+            foreach (string basePath in BasePaths)
+            {
+                string p = basePath + path;
+                if (File.Exists(p))
+                {
+                    return p;
+                }
+            }
+            return string.Empty;
+        }
+
         public static void CreateBGConfig()
         {
             BackgroundConfigJson config = new BackgroundConfigJson();
-            Directory.CreateDirectory(Betterloid.Betterloid.BasePath + "/Backgrounds");
+            Directory.CreateDirectory(Betterloid.Betterloid.DataPath + "/Backgrounds");
             string json = Betterloid.Betterloid.SerializeObject(config);
-            File.WriteAllText(Betterloid.Betterloid.BasePath + "/Backgrounds/config.json", json);
+            File.WriteAllText(Betterloid.Betterloid.DataPath + "/Backgrounds/config.json", json);
         }
 
         public void LoadBGConfig(string config)
@@ -41,7 +55,7 @@ namespace BackgroundPlugin
 
             if (!string.IsNullOrEmpty(backgroundConfig.CustomBackground))
             {
-                CustomBackground = Betterloid.Betterloid.BasePath + "/Backgrounds/" + backgroundConfig.CustomBackground;
+                CustomBackground = FindFile("/Backgrounds/" + backgroundConfig.CustomBackground);
             }
             else
             {
@@ -90,16 +104,23 @@ namespace BackgroundPlugin
             Opacity = backgroundConfig.Opacity;
         }
 
-        public void SetupConfig(string vbName)
+        public static void InitializeConfig()
         {
-            string config = Betterloid.Betterloid.BasePath + "/Backgrounds/config.json";
+            string config = FindFile("/Backgrounds/config.json");
             if (!File.Exists(config))
             {
                 CreateBGConfig();
             }
+        }
+
+        public void SetupConfig(string vbName)
+        {
+            string config = FindFile("/Backgrounds/config.json");
+            InitializeConfig();
+
             LoadBGConfig(config);
 
-            config = Betterloid.Betterloid.BasePath + "/Backgrounds/" + vbName + ".json";
+            config = FindFile("/Backgrounds/" + vbName + ".json");
             if (File.Exists(config))
             {
                 LoadBGConfig(config);

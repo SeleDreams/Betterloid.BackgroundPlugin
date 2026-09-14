@@ -51,6 +51,7 @@ namespace BackgroundPlugin
 
         public void Startup()
         {
+            BackgroundConfig.InitializeConfig();
             image = new BackgroundImage();
             MainWindow window = Application.Current.MainWindow as MainWindow;
             try

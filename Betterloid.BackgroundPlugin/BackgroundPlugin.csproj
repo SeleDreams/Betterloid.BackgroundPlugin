@@ -37,9 +37,8 @@
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Betterloid" Condition="'$(TargetFramework)' == 'net8.0-windows'">
-      <HintPath>..\VOCALOID6\Plugins\Betterloid\$(TargetFramework)\Betterloid.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="Betterloid">
+      <HintPath>..\VOCALOID6\Plugins\Betterloid\net8.0-windows\Betterloid.dll</HintPath>
     </Reference>
     <Reference Include="VOCALOID6" Condition="'$(TargetFramework)' == 'net8.0-windows'">
       <HintPath>..\VOCALOID6\VOCALOID6.dll</HintPath>
