@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows.Media;
 using System.Windows;
 using System;
+using System.Linq;
 namespace BackgroundPlugin
 {
     
@@ -51,57 +52,109 @@ namespace BackgroundPlugin
         public void LoadBGConfig(string config)
         {
             string json = File.ReadAllText(config);
-            BackgroundConfigJson backgroundConfig = Betterloid.Betterloid.DeserializeObject<BackgroundConfigJson>(json);
+            BackgroundConfigJson backgroundConfig = null;
+            try
+            {
+                backgroundConfig = Betterloid.Betterloid.DeserializeObject<BackgroundConfigJson>(json);
+            }
+            catch
+            {
+                Betterloid.Wrappers.MessageBoxDeliverer.GeneralError($"An error occurred loading {config}. Verify there are no syntax errors and that the Opacity value is correct (the opacity value must not be in quotation marks).");
+                backgroundConfig = new BackgroundConfigJson();
+            }
+            finally
+            {
+                if (!string.IsNullOrEmpty(backgroundConfig.CustomBackground))
+                {
+                    CustomBackground = FindFile("/Backgrounds/" + backgroundConfig.CustomBackground);
+                }
+                else
+                {
+                    CustomBackground = "";
+                }
+                try
+                {
+                    if (!string.IsNullOrEmpty(backgroundConfig.HorizontalAlignment))
+                    {
+                        HorizontalAlignment = (HorizontalAlignment)Enum.Parse(typeof(HorizontalAlignment), backgroundConfig.HorizontalAlignment,true);
+                    }
+                    else
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Left;
+                    }
+                }
+                catch
+                {
+                    Betterloid.Wrappers.MessageBoxDeliverer.GeneralError($"The HorizontalAlignment value of {config} is not valid ! Valid values are {String.Join(", ", Enum.GetNames(typeof(HorizontalAlignment)))}");
+                    HorizontalAlignment = HorizontalAlignment.Left;
+                }
+                try
+                {
+                    if (!string.IsNullOrEmpty(backgroundConfig.VerticalAlignment))
+                    {
+                        VerticalAlignment = (VerticalAlignment)Enum.Parse(typeof(VerticalAlignment), backgroundConfig.VerticalAlignment,true);
+                    }
+                    else
+                    {
+                        VerticalAlignment = VerticalAlignment.Top;
+                    }
+                }
+                catch
+                {
+                    Betterloid.Wrappers.MessageBoxDeliverer.GeneralError($"The VerticalAlignment value of {config} is not valid ! Valid values are {String.Join(", ", Enum.GetNames(typeof(VerticalAlignment)))}");
+                    VerticalAlignment = VerticalAlignment.Top;
+                }
+                try
+                {
+                    if (!string.IsNullOrEmpty(backgroundConfig.Stretch))
+                    {
+                        Stretch = (Stretch)Enum.Parse(typeof(Stretch), backgroundConfig.Stretch,true);
+                    }
+                    else
+                    {
+                        Stretch = Stretch.Uniform;
+                    }
+                }
+                catch
+                {
+                    Betterloid.Wrappers.MessageBoxDeliverer.GeneralError($"The Stretch value of {config} is not valid ! Valid values are {String.Join(", ", Enum.GetNames(typeof(Stretch)))}");
+                    Stretch = Stretch.Uniform;
+                }
 
-            if (!string.IsNullOrEmpty(backgroundConfig.CustomBackground))
-            {
-                CustomBackground = FindFile("/Backgrounds/" + backgroundConfig.CustomBackground);
+                if (!string.IsNullOrEmpty(backgroundConfig.Width) && string.Compare(backgroundConfig.Width,"auto",true) != 0)
+                {
+                    try
+                    {
+                        Width = int.Parse(backgroundConfig.Width);
+                    }
+                    catch
+                    {
+                        Betterloid.Wrappers.MessageBoxDeliverer.GeneralError($"The Width value of {config} ({backgroundConfig.Width}) is not valid !");
+                        Width = -1;
+                    }
+                }
+                else
+                {
+                    Width = -1;
+                }
+                if (!string.IsNullOrEmpty(backgroundConfig.Height) && string.Compare(backgroundConfig.Height, "auto", true) != 0)
+                {
+                    try
+                    {
+                        Height = int.Parse(backgroundConfig.Height);
+                    }
+                    catch
+                    {
+                        Betterloid.Wrappers.MessageBoxDeliverer.GeneralError($"The Height value of {config} ({backgroundConfig.Height}) is not valid !");
+                        Height = -1;
+                    }
+                }
+                else
+                {
+                    Height = -1;
+                }
+                Opacity = backgroundConfig.Opacity;
             }
-            else
-            {
-                CustomBackground = "";
-            }
-
-            if (!string.IsNullOrEmpty(backgroundConfig.HorizontalAlignment))
-            {
-                HorizontalAlignment = (HorizontalAlignment)Enum.Parse(typeof(HorizontalAlignment), backgroundConfig.HorizontalAlignment);
-            }
-            else
-            {
-                HorizontalAlignment = HorizontalAlignment.Left;
-            }
-
-            if (!string.IsNullOrEmpty(backgroundConfig.VerticalAlignment))
-            {
-                VerticalAlignment = (VerticalAlignment)Enum.Parse(typeof(VerticalAlignment), backgroundConfig.VerticalAlignment);
-            }
-            else
-            {
-                VerticalAlignment = VerticalAlignment.Top;
-            }
-
-            if (!string.IsNullOrEmpty(backgroundConfig.HorizontalAlignment))
-            {
-                Stretch = (Stretch)Enum.Parse(typeof(Stretch), backgroundConfig.Stretch);
-            }
-
-            if (!string.IsNullOrEmpty(backgroundConfig.Width) && backgroundConfig.Width != "auto")
-            {
-                Width = int.Parse(backgroundConfig.Width);
-            }
-            else if (backgroundConfig.Width == "auto")
-            {
-                Width = -1;
-            }
-            if (!string.IsNullOrEmpty(backgroundConfig.Height) && backgroundConfig.Height != "auto")
-            {
-                Height = int.Parse(backgroundConfig.Height);
-            }
-            else if (backgroundConfig.Height == "auto")
-            {
-                Height = -1;
-            }
-            Opacity = backgroundConfig.Opacity;
         }
 
         public static void InitializeConfig()
@@ -115,9 +168,12 @@ namespace BackgroundPlugin
 
         public void SetupConfig(string vbName)
         {
-            string config = FindFile("/Backgrounds/config.json");
             InitializeConfig();
-
+            string config = FindFile("/Backgrounds/config.json");
+            if (string.IsNullOrEmpty(config))
+            {
+                return;
+            }
             LoadBGConfig(config);
 
             config = FindFile("/Backgrounds/" + vbName + ".json");

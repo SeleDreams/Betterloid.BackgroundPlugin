@@ -24,7 +24,7 @@ namespace BackgroundPlugin
         
         Panel midiEditorPanel;
         BackgroundImage image;
-
+        private readonly object _sync = new object();
         private static VoiceBank GetVB(MusicalEditorViewModel musicalEditor)
         {
             WIVSMMidiPart part = musicalEditor.ActivePart;
@@ -43,9 +43,11 @@ namespace BackgroundPlugin
 
         private void RefreshImage(ZoomScrollViewer zoomScrollViewer, MusicalEditorViewModel musicalEditor)
         {
-            
-            image.UpdateBackgroundImage(GetVB(musicalEditor), zoomScrollViewer.ViewportWidth, zoomScrollViewer.ViewportHeight);
-            image.RefreshImagePosition(zoomScrollViewer, musicalEditor);
+            lock (_sync)
+            {
+                image.UpdateBackgroundImage(GetVB(musicalEditor), zoomScrollViewer.ViewportWidth, zoomScrollViewer.ViewportHeight);
+                image.RefreshImagePosition(zoomScrollViewer, musicalEditor);
+            }
         }
 
 
