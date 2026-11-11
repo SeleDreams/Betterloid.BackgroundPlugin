@@ -8,7 +8,7 @@ using System;
 
 using System.Windows;
 
-#if VOCALOID6
+#if VOCALOID6 || VOCALOID7
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.VDM;
 using Yamaha.VOCALOID.MusicalEditor;
@@ -55,7 +55,7 @@ namespace BackgroundPlugin
             }
 
         }
-#elif VOCALOID6
+#elif VOCALOID6 || VOCALOID7
         private static string GetVoiceImage(VoiceBank vb)
         {
             return vb.GetImagePath();
@@ -189,7 +189,8 @@ namespace BackgroundPlugin
             if (loadedImage != vb.CompID)
             {
                 ImageBehavior.SetAnimatedSource(Image, null);
-                config.SetupConfig(vb.Name);
+                VBInfo info = new VBInfo { vbName = vb.Name, vbId = vb.CompID };
+                config.SetupConfig(info);
                 filename = string.IsNullOrEmpty(config.CustomBackground) ? GetVoiceImage(vb) : config.CustomBackground;
                 if (string.IsNullOrEmpty(filename) || !File.Exists(filename))
                     return;

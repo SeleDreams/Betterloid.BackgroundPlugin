@@ -6,7 +6,12 @@ using System;
 using System.Linq;
 namespace BackgroundPlugin
 {
-    
+    public class VBInfo
+    {
+        public string vbName = string.Empty;
+        public string vbId = string.Empty;
+    }
+
     public class BackgroundConfig {
         private class BackgroundConfigJson
         {
@@ -166,7 +171,7 @@ namespace BackgroundPlugin
             }
         }
 
-        public void SetupConfig(string vbName)
+        public void SetupConfig(VBInfo vbInfo)
         {
             InitializeConfig();
             string config = FindFile("/Backgrounds/config.json");
@@ -175,11 +180,21 @@ namespace BackgroundPlugin
                 return;
             }
             LoadBGConfig(config);
-
-            config = FindFile("/Backgrounds/" + vbName + ".json");
-            if (File.Exists(config))
+            if (vbInfo != null)
             {
-                LoadBGConfig(config);
+                config = FindFile("/Backgrounds/" + vbInfo.vbName + ".json");
+                if (File.Exists(config))
+                {
+                    LoadBGConfig(config);
+                }
+                else // If the vb name json wasn't found, try to find the vb ID
+                {
+                    config = FindFile("/Backgrounds/" + vbInfo.vbId + ".json");
+                    if (File.Exists(config))
+                    {
+                        LoadBGConfig(config);
+                    }
+                }
             }
         }
     }

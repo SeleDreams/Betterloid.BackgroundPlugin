@@ -4,6 +4,7 @@
   "PluginType": "Startup",
   "PluginAssemblyV5": "netframework4.6/BackgroundPlugin.dll",
   "PluginAssemblyV6": "net8.0-windows/BackgroundPlugin.dll",
+  "PluginAssemblyV7": "net10.0-windows/BackgroundPlugin.dll",
   "PluginName": "BackgroundPlugin",
   "PluginVersion": "1.0.0",
   "PluginNamespace": "BackgroundPlugin",

@@ -1,0 +1,12 @@
+{
+  "PluginActive": "true",
+  "PluginAuthor": "SeleDreams",
+  "PluginType": "Editor",
+  "PluginAssemblyV5": "netframework4.6/BackgroundPluginCommand.dll",
+  "PluginAssemblyV6": "net8.0-windows/BackgroundPluginCommand.dll",
+  "PluginAssemblyV7": "net10.0-windows/BackgroundPluginCommand.dll",
+  "PluginName": "Get current voice info",
+  "PluginVersion": "1.0.0",
+  "PluginNamespace": "BackgroundPluginCommand",
+  "PluginClass": "BackgroundPluginCommand"
+}

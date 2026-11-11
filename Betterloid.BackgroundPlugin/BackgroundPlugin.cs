@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System;
 
-#if VOCALOID6
+#if VOCALOID6 || VOCALOID7
 using Yamaha.VOCALOID;
 using Yamaha.VOCALOID.MusicalEditor;
 using Yamaha.VOCALOID.VSM;
@@ -35,7 +35,7 @@ namespace BackgroundPlugin
             VoiceBank vb;
 #if VOCALOID5
                 vb = App.DatabaseManager.GetVoiceBankByCompID(musicalEditor.ActivePart.VoiceBankID);
-#elif VOCALOID6
+#elif VOCALOID6 || VOCALOID7
             vb = musicalEditor.ActivePart.VoiceBank();
 #endif
             return vb;
